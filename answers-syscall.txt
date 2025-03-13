@@ -1,0 +1,21 @@
+1. Looking at the backtrace output, which function called syscall?
+usertrap()
+
+2. What is the value of p->trapframe->a7 and what does that value represent? (Hint: look user/initcode.S, the first user program xv6 starts.)
+The value of p->trapframe->a7 is 7. This represents the system call number for 'exec' in syscall.h.
+
+3. What was the previous mode that the CPU was in?
+User mode. Since the SPP bit (8-th bit) is 0, which indicates that it previously switched from the user mode. 
+
+4. Write down the assembly instruction the kernel is panicing at. Which register corresponds to the variable num?
+num = * (int *) 0;
+    80001c8c:	00002903          	lw	s2,0(zero) # 0 <_entry-0x80000000>
+Register s2 corresponds to the variable num.
+
+5. Why does the kernel crash? Hint: look at figure 3-3 in the text; is address 0 mapped in the kernel address space? Is that confirmed by the value in scause above? (See description of scause in RISC-V privileged instructions)
+The sepc register is written with the virtual address of the instruction that took the trap, which is 80001c8c in this case. 
+The kernel crashes because you access the virtual address 0 which isn’t mapped in the kernel address space.
+It is confirmed by the value in scauce because the Interrupt bit in the scause register is set if the trap was caused by an interrupt. 
+
+6. What is the name of the binary that was running when the kernel paniced? What is its process id (pid)?
+The name of the binary is "initcode\000\000\000\000\000\000\000". Its process id is 1.
