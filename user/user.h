@@ -1,5 +1,6 @@
 struct stat;
-
+struct sysinfo;
+int sysinfo (struct sysinfo*);
 // system calls
 int trace(int mask);
 int fork(void);
