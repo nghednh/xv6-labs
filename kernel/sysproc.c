@@ -5,6 +5,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "syscall.h"
 
 uint64
 sys_exit(void)
@@ -19,6 +20,16 @@ uint64
 sys_getpid(void)
 {
   return myproc()->pid;
+}
+
+uint64
+sys_trace(void)
+{
+  int mask;
+
+  argint(0, &mask);
+  myproc()->trace_mark = mask;
+  return 0;
 }
 
 uint64
